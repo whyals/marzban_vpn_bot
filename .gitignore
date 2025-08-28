@@ -19,3 +19,5 @@ test.py
 
 # Cистемные файлы
 **/.DS_Store
+handlers/.DS_Store
+utils/.DS_Store
