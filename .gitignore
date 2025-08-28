@@ -14,3 +14,8 @@ __pycache__/
 # Тестовые файлы
 test.py
 
+# PyCharm
+.idea/
+
+# Cистемные файлы
+**/.DS_Store
