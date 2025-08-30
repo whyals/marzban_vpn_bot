@@ -47,7 +47,7 @@ def format_name(name, user_id):
 async def get_or_create_vpn_key(user_id, user_name, country_code):
     for server in SERVERS.values():
         if server["name_en"] == country_code:
-            base_url = f"{server['ip']}:{server['port']}"
+            base_url = f"http://{server['ip']}:{server['port']}"
             break
     else:
         logger.error(f"URL для страны {country_code} не настроен")

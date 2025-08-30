@@ -24,7 +24,7 @@ async def ping_server(server):
 async def check_http(server):
 
     host = server["ip"]
-    url = f"http://{host}:{server['port']}"  # используем порт из сервера
+    url = f"http://{host}:{server['port']}"
     logger.info(f"Проверка HTTP для {server['flag']} {server['name_ru']} ({url})")
 
     try:

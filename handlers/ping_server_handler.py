@@ -60,7 +60,6 @@ async def check_token(server):
 @bot.on(events.NewMessage(pattern='Проверить состояние серверов'))
 async def handler(event):
     logger.info("Получена команда 'Проверить состояние серверов'")
-    # создаем кнопки с IP адресами для callback
     buttons = [[Button.inline(name, data=server["ip"])] for name, server in SERVERS.items()]
     await event.reply("Выберите сервер для проверки:", buttons=buttons)
 

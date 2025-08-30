@@ -21,7 +21,6 @@ async def start(event):
     user = await get_user(user_id)
     logger.debug(f"Данные пользователя из БД: {user}")
 
-    # если нет юзера или он был отменён
     if not user or user[3] == 'cancelled':
         await bot.send_message(
             user_id,
