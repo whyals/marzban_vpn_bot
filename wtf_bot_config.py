@@ -18,13 +18,35 @@ BANK_CARD = os.getenv("BANK_CARD")
 MARZBAN_LOGIN = os.getenv("MARZBAN_LOGIN")
 MARZBAN_PASSWORD = os.getenv("MARZBAN_PASSWORD")
 
-VPN_OPTIONS = dict(
-    item.split(":", 1) for item in os.getenv("VPN_OPTIONS").split(";")
-)
 
-MARZBAN_URLS = dict(
-    item.split(":", 1) for item in os.getenv("MARZBAN_URLS").split(";")
-)
+SERVERS = {
+    f"{os.getenv('VPN_FINLAND_FLAG')} {os.getenv('VPN_FINLAND_NAME_RU')}": {
+        "ip": os.getenv("VPN_FINLAND_IP"),
+        "port": os.getenv("VPN_FINLAND_PORT"),
+        "name_en": os.getenv("VPN_FINLAND_NAME_EN"),
+        "name_ru": os.getenv("VPN_FINLAND_NAME_RU"),
+        "flag": os.getenv("VPN_FINLAND_FLAG"),
+        "url": f"http://{os.getenv('VPN_FINLAND_IP')}:{os.getenv('VPN_FINLAND_PORT')}"
+    },
+    f"{os.getenv('VPN_GERMANY_FLAG')} {os.getenv('VPN_GERMANY_NAME_RU')}": {
+        "ip": os.getenv("VPN_GERMANY_IP"),
+        "port": os.getenv("VPN_GERMANY_PORT"),
+        "name_en": os.getenv("VPN_GERMANY_NAME_EN"),
+        "name_ru": os.getenv("VPN_GERMANY_NAME_RU"),
+        "flag": os.getenv("VPN_GERMANY_FLAG"),
+        "url": f"http://{os.getenv('VPN_GERMANY_IP')}:{os.getenv('VPN_GERMANY_PORT')}"
+    },
+    f"{os.getenv('VPN_SPB_FLAG')} {os.getenv('VPN_SPB_NAME_RU')}": {
+        "ip": os.getenv("VPN_SPB_IP"),
+        "port": os.getenv("VPN_SPB_PORT"),
+        "name_en": os.getenv("VPN_SPB_NAME_EN"),
+        "name_ru": os.getenv("VPN_SPB_NAME_RU"),
+        "flag": os.getenv("VPN_SPB_FLAG"),
+        "url": f"http://{os.getenv('VPN_SPB_IP')}:{os.getenv('VPN_SPB_PORT')}"
+    }
+}
+
+print(SERVERS)
 
 MENU_BUTTONS = [
     [Button.text('Подключить VPN', resize=True), Button.text('Поддержать автора', resize=True)],

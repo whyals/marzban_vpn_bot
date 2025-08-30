@@ -4,7 +4,7 @@ import re
 import base64
 import socket
 
-from wtf_bot_config import MARZBAN_URLS, MARZBAN_LOGIN, MARZBAN_PASSWORD
+from wtf_bot_config import SERVERS, MARZBAN_LOGIN, MARZBAN_PASSWORD
 
 from utils.vpn_keys_db_func import get_vpn_key, add_vpn_key
 from utils.logging_func import setup_logger
@@ -45,8 +45,11 @@ def format_name(name, user_id):
 
 
 async def get_or_create_vpn_key(user_id, user_name, country_code):
-    base_url = MARZBAN_URLS.get(country_code)
-    if not base_url:
+    for server in SERVERS.values():
+        if server["name_en"] == country_code:
+            base_url = f"{server['ip']}:{server['port']}"
+            break
+    else:
         logger.error(f"URL для страны {country_code} не настроен")
         raise ValueError(f"URL для страны {country_code} не настроен.")
 

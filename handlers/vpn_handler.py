@@ -1,7 +1,7 @@
 from telethon import events, Button
 
 from bot_init import bot
-from wtf_bot_config import VPN_OPTIONS, MARZBAN_URLS, DOWNLOAD_LINKS
+from wtf_bot_config import SERVERS, DOWNLOAD_LINKS
 
 from utils.check_access import check_access
 from utils.vpn_func import get_or_create_vpn_key, get_config_content
@@ -15,7 +15,8 @@ async def connect_vpn(event):
         return
 
     vpn_buttons = [
-        [Button.inline(name, f'vpn_{code}'.encode())] for code, name in VPN_OPTIONS.items()
+        [Button.inline(display_name, f'vpn_{data["name_en"]}'.encode())]
+        for display_name, data in SERVERS.items()
     ] + [[Button.url("Что лучше выбрать", "https://teletype.in/@why_als/0LpBk5NUMJ8#Xfxd")]]
 
     await bot.send_message(
@@ -36,14 +37,16 @@ async def send_vpn_config(event):
 
     country_code = event.data.decode().split('vpn_', 1)[1]
 
-    if country_code not in VPN_OPTIONS:
+
+    server = next((s for s in SERVERS.values() if s["name_en"] == country_code), None)
+    if not server:
         await event.respond('Ошибка: такая страна не поддерживается.')
         return
 
     try:
         subscription_url = await get_or_create_vpn_key(user_id, user_tag, country_code)
 
-        base_url = MARZBAN_URLS.get(country_code)
+        base_url = server["url"]
         if not base_url:
             await event.respond('Ошибка: неизвестный сервер для выбранной страны.')
             return
@@ -55,12 +58,16 @@ async def send_vpn_config(event):
         config = config.split('#')[0] + f"#{key_label}"
 
         message = (
-            f"Ваш VPN-ключ для {VPN_OPTIONS[country_code]}:\n\n"
+            f"Ваш VPN-ключ для {server['flag']} {server['name_ru']}:\n\n"
             f"```\n{config}\n```\n\n"
             f"{DOWNLOAD_LINKS}"
         )
 
-        await event.respond(message, buttons=[Button.url("Гайд по подключению и настройкам", "https://teletype.in/@why_als/0LpBk5NUMJ8#Skwv")], parse_mode='md')
+        await event.respond(
+            message,
+            buttons=[Button.url("Гайд по подключению и настройкам", "https://teletype.in/@why_als/0LpBk5NUMJ8#Skwv")],
+            parse_mode='md'
+        )
 
     except Exception as e:
         await event.respond(f"Ошибка при получении конфигурации: {e}")

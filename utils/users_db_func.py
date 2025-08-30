@@ -4,7 +4,7 @@ import os
 DB_FOLDER = 'py_bots/databases'
 os.makedirs(DB_FOLDER, exist_ok=True)
 
-DB_PATH = os.path.join(DB_FOLDER, 'full_users.db')
+DB_PATH = os.path.join(DB_FOLDER, 'test_users.db')
 
 users_conn = sqlite3.connect(DB_PATH)
 users_cursor = users_conn.cursor()
@@ -14,8 +14,7 @@ users_cursor.execute('''
         tg_id INTEGER PRIMARY KEY,
         tg_tag TEXT,
         name TEXT,
-        access_level TEXT, 
-        gpt_status TEXT
+        access_level TEXT
     )
 ''')
 users_conn.commit()
@@ -24,7 +23,7 @@ users_conn.commit()
 async def add_user(tg_id, tg_tag, name, access_level):
     users_cursor.execute(
         'REPLACE INTO users (tg_id, tg_tag, name, access_level) VALUES (?, ?, ?, ?)',
-        (tg_id, tg_tag, name, access_level, 'False')
+        (tg_id, tg_tag, name, access_level)
     )
     users_conn.commit()
 
