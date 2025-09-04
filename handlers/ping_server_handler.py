@@ -43,13 +43,12 @@ async def check_token(server):
     logger.info(f"Проверки токена для сервера: {server['name_ru']}")
     try:
         base_url = server["url"]
-        username = MARZBAN_LOGIN
-        password = MARZBAN_PASSWORD
+
 
         logger.info(f"Используемый URL для получения токена: {base_url}/api/admin/token")
-        logger.info(f"Передаваемые данные: username={username}, password=[HIDDEN]")
+        logger.info(f"Передаваемые данные: username={MARZBAN_LOGIN}, password=[HIDDEN]")
 
-        token = await get_access_token(server)
+        token = await get_access_token(base_url)
         logger.info(f"Токен успешно получен для {server['name_ru']}: {token[:10]}... (обрезан для безопасности)")
         return "✅ VPN клиент работает"
     except Exception as e:

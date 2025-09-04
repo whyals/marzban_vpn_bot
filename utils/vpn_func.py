@@ -12,12 +12,12 @@ from utils.logging_func import setup_logger
 logger = setup_logger("vpn_func", "vpn_func.log")
 
 
-async def get_access_token(base_url, username, password):
+async def get_access_token(base_url):
     try:
         connector = aiohttp.TCPConnector(family=socket.AF_INET)
         async with aiohttp.ClientSession(connector=connector) as session:
-            url = f"{base_url}/api/admin/token"
-            data = {"username": username, "password": password}
+            url = f"{base_url}/api/admin/token" # тут ломается
+            data = {"username": MARZBAN_LOGIN, "password": MARZBAN_PASSWORD}
             async with session.post(url, data=data, ssl=False) as response:
                 if response.status == 200:
                     token = (await response.json())["access_token"]
@@ -63,7 +63,7 @@ async def get_or_create_vpn_key(user_id, user_name, country_code):
 
     formated_name = format_name(user_name, user_id)
     try:
-        access_token = await get_access_token(base_url, MARZBAN_LOGIN, MARZBAN_PASSWORD)
+        access_token = await get_access_token(base_url)
     except Exception as e:
         logger.error(f"Не удалось подключиться к серверу {base_url}: {str(e)}")
         raise Exception(f"Сервер {country_code} недоступен. Попробуйте позже.")
@@ -72,7 +72,8 @@ async def get_or_create_vpn_key(user_id, user_name, country_code):
     connector = aiohttp.TCPConnector(family=socket.AF_INET)
     async with aiohttp.ClientSession(connector=connector) as session:
 
-        url = f"{base_url}/api/user/{formated_name}"
+        url = f"{server['url']}/api/user/{formated_name}"
+
         headers = {"Authorization": f"Bearer {access_token}"}
         async with session.get(url, headers=headers, ssl=False) as response:
             if response.status == 200:

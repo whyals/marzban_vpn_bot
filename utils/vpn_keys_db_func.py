@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_FOLDER = 'databases'
+DB_FOLDER = 'marzban_vpn_bot/databases'
 os.makedirs(DB_FOLDER, exist_ok=True)
 
 def get_db_connection(country):

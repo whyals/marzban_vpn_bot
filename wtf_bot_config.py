@@ -46,8 +46,6 @@ SERVERS = {
     }
 }
 
-print(SERVERS)
-
 MENU_BUTTONS = [
     [Button.text('Подключить VPN', resize=True), Button.text('Поддержать автора', resize=True)],
     [Button.text('Проверить состояние серверов', resize=True)],

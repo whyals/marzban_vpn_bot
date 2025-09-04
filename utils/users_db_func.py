@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_FOLDER = 'py_bots/databases'
+DB_FOLDER = 'marzban_vpn_bot/databases'
 os.makedirs(DB_FOLDER, exist_ok=True)
 
 DB_PATH = os.path.join(DB_FOLDER, 'test_users.db')
